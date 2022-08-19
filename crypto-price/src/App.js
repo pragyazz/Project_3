@@ -1,57 +1,55 @@
-import React,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Coin from './Coin';
 import './App.css';
-
-
-
-
+import Coin from './Coin';
 
 function App() {
-  const[coins ,setCoins] = useState ([])
-  const[search ,setSearch]= useState('')
+  const [coins, setCoins] = useState([]);
+  const [search, setSearch] = useState('');
 
-  useEffect(()=>{
-    axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false')
-    .then( res =>{
-      setCoins(res.data);
-      console.log(res.data);
-    })
-    .catch(error => console.log(error));
-  },[]);
+  useEffect(() => {
+    axios
+      .get(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+      .then(res => {
+        setCoins(res.data);
+        console.log(res.data);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
-  const handleChange = e =>{
+  const handleChange = e => {
     setSearch(e.target.value);
-  }
+  };
 
   const filteredCoins = coins.filter(coin =>
-    coin.name.toLowerCase().include(search.toLowerCase())
+    coin.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="coin-app">
-      <div className="coin-search">
-        <h1 className='coin-text'>Search a currency</h1>
+    <div className='coin-app'>
+      <div className='coin-search'>
+        <h1 className='coin-text'>Search a Crypto Currency</h1>
         <form>
-          <input 
+          <input
             className='coin-input'
-            type='text'   
-            placeholder='Search'  
+            type='text'
             onChange={handleChange}
+            placeholder='Search'
           />
         </form>
       </div>
-      { filteredCoins.map(coin => {
+      {filteredCoins.map(coin => {
         return (
-          <Coin 
-            key={coin.id} 
-            name={coin.name} 
+          <Coin
+            key={coin.id}
+            name={coin.name}
+            price={coin.current_price}
+            symbol={coin.symbol}
+            marketcap={coin.total_volume}
+            volume={coin.market_cap}
             image={coin.image}
-            symbol={coin.symbols}
-            marketcap={coin.market_cap}
-            price ={coin.current_price}
-            priceChange ={coin.price_change_percentage_24h}
-            volume = {coin.total_volume}
+            priceChange={coin.price_change_percentage_24h}
           />
         );
       })}

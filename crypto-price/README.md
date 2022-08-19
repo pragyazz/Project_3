@@ -72,3 +72,18 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 //https://api.coingecko.com/api/v3/coins/markets?vs_currency=inr&order=market_cap_desc&per_page=100&page=1&sparkline=false
+
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+
+import App from './App';
+
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
+
+root.render(
+  <>
+    <App></App>
+  </>,
+  document.getElementById('root')
+);
